@@ -1,4 +1,4 @@
-import sequelize from "sequelize";
+import sequelize from "../database";
 import { DataTypes, Model } from "sequelize";
 import { Status } from "../enums/Status";
 import { Skills } from "../enums/Skills";
