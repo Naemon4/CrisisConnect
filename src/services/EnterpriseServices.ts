@@ -14,5 +14,12 @@ class EnterpriseService {
     if (enterpriseExists) throw new Error("CNPJ já cadastrado");
     }
 
+    async delete(id: number) {
+        const enterprise = await Enterprise.findByPk(id);
+        if (!enterprise) throw new Error("Empresa não encontrada");
+        await enterprise.destroy();
+        return { message: "Empresa deletada!" };
+    }
+
     
 }
