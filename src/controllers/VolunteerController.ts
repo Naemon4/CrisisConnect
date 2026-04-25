@@ -3,6 +3,8 @@ import volunteerService from "../services/VolunteerService";
 
 class VolunteerController {
     
+
+    // POST /volunteers
     async create(req: Request, res: Response) {
      try {
           const volunteer = await volunteerService.create(req.body);
@@ -12,6 +14,8 @@ class VolunteerController {
         }
     }
 
+
+    // PUT /volunteers/:id/status
     async updateStatus(req: Request, res: Response) {
         try {
             const { id } = req.params;
@@ -23,6 +27,7 @@ class VolunteerController {
         }
     }
 
+    // Get /volunteers/:id
     async findOne(req: Request, res: Response) {
         try {
             const { id } = req.params;
@@ -33,6 +38,7 @@ class VolunteerController {
         }
     }
 
+    // delete /volunteers/:id
     async delete(req: Request, res: Response) {
         try {
             const { id } = req.params;
