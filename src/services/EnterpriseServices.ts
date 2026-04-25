@@ -1,4 +1,4 @@
-import { Enterprise } from "../models/enterprise";
+import { Enterprise } from "../models/Enterprise";
 
 class EnterpriseService {
 
