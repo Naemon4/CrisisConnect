@@ -1,9 +1,10 @@
 import { Model, DataTypes } from "sequelize";
+import sequelize from "../database";
 
-export class Enterprise extends Model{
+export class Enterprise extends Model {
     declare id: number;
     declare name: String;
-    declare email: String
+    declare email: String;
     declare password: String;
     declare cnpj: String;
     declare contactEmail: String;
@@ -27,7 +28,7 @@ Enterprise.init({
     },
     password: {
         type: DataTypes.STRING,
-        allowNull: false    
+        allowNull: false
     },
     cnpj: {
         type: DataTypes.STRING(14),
@@ -42,10 +43,12 @@ Enterprise.init({
         type: DataTypes.STRING,
         allowNull: false
     }
-}, 
+},
 {
     sequelize,
     modelName: "Enterprise",
     tableName: "enterprises",
     timestamps: true
 })
+
+export default Enterprise;

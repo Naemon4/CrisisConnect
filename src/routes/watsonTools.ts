@@ -1,7 +1,7 @@
 // src/routes/watsonTools.ts
 
 import { Router, Request, Response } from 'express'
-import { Voluntario } from '../models/Voluntario'
+import { Volunteer } from '../models/Volunteer'
 import { Op } from 'sequelize'
 
 const router = Router()
@@ -10,7 +10,7 @@ const router = Router()
 router.post('/tools/buscar-voluntarios', async (req: Request, res: Response) => {
     const { habilidades, quantidade } = req.body
 
-    const voluntarios = await Voluntario.findAll({
+    const voluntarios = await Volunteer.findAll({
         where: {
             status: 'livre',
             habilidades: { [Op.overlap]: habilidades }, // PostgreSQL array overlap
@@ -25,7 +25,7 @@ router.post('/tools/buscar-voluntarios', async (req: Request, res: Response) => 
 router.post('/tools/atualizar-status', async (req: Request, res: Response) => {
     const { voluntario_id, status } = req.body
 
-    await Voluntario.update({ status }, { where: { id: voluntario_id } })
+    await Volunteer.update({ status }, { where: { id: voluntario_id } })
 
     res.json({ success: true })
 })
