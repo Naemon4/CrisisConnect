@@ -21,7 +21,18 @@ class VolunteerController {
             const { id } = req.params;
             const { status } = req.body;
             const volunteer = await volunteerService.updateStatus(Number(id), status);
-            res.status(200);
+            res.status(200).json(volunteer);
+        } catch (error: any) {
+            res.status(400).json({ error: error.message });
+        }
+    }
+
+    // PUT /volunteers/:id
+    async update(req: Request, res: Response) {
+        try {
+            const { id } = req.params;
+            const volunteer = await volunteerService.update(Number(id), req.body);
+            res.status(200).json(volunteer);
         } catch (error: any) {
             res.status(400).json({ error: error.message });
         }
@@ -49,3 +60,5 @@ class VolunteerController {
         }
     }
 }
+
+export default new VolunteerController;

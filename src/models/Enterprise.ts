@@ -9,6 +9,7 @@ export class Enterprise extends Model {
     declare cnpj: String;
     declare contactEmail: String;
     declare contactPhone: String;
+    declare webhookUrl: string | null;
 }
 
 Enterprise.init({
@@ -40,6 +41,10 @@ Enterprise.init({
         allowNull: false
     },
     contactPhone: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    webhookUrl: {
         type: DataTypes.STRING,
         allowNull: false
     }
