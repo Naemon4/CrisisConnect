@@ -2,6 +2,9 @@
 
 import { AcaoCrise, AcaoCriseAttributes } from '../models/AcaoCrise'
 import { WatsonxService } from './WatsonxService'
+import { Volunteer } from '../models/Volunteer'
+import { Op } from 'sequelize'
+import { Enterprise } from '../models/Enterprise'
 
 const watson = new WatsonxService()
 
@@ -12,7 +15,9 @@ export class AcaoCriseService {
   }
 
   async buscarPorId(id: number): Promise<AcaoCrise | null> {
-    return await AcaoCrise.findByPk(id)
+    return await AcaoCrise.findByPk(id, {
+      include: [{ model: Enterprise, as: 'empresa' }]
+    })
   }
 
   async buscarPorEmpresa(empresa_id: number): Promise<AcaoCrise[]> {
@@ -46,4 +51,26 @@ export class AcaoCriseService {
 
     return resultado
   }
+
+  async sairDaAcao(acao_id: number, voluntario_id: number): Promise<void> {
+    const acao = await AcaoCrise.findByPk(acao_id)
+    if (!acao) throw new Error('Ação não encontrada')
+
+    const ids = (acao.voluntarios_ids || []).filter((id: number) => id !== voluntario_id)
+    await acao.update({
+      voluntarios_ids: ids,
+      voluntarios_ativos: Math.max(0, acao.voluntarios_ativos - 1),
+    })
+
+    await Volunteer.update({ status: 'ATIVO' }, { where: { id: voluntario_id } })
+  }
+
+  async buscarPorVoluntario(voluntario_id: number): Promise<AcaoCrise[]> {
+    return await AcaoCrise.findAll({
+      where: {
+        voluntarios_ids: { [Op.contains]: [voluntario_id] }
+      }
+    })
+  }
+
 }

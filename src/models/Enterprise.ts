@@ -46,7 +46,7 @@ Enterprise.init({
     },
     webhookUrl: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: true
     }
 },
 {

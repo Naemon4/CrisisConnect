@@ -2,6 +2,7 @@
 
 import { DataTypes, Model, Optional } from 'sequelize'
 import sequelize from '../database'
+import { Enterprise } from './Enterprise'
 
 export interface AcaoCriseAttributes {
   id: number
@@ -10,23 +11,28 @@ export interface AcaoCriseAttributes {
   voluntarios_ativos: number
   habilidades_necessarias: string[]
   status: 'aberta' | 'em_andamento' | 'concluida'
+  voluntarios_ids: number[]
+  titulo: string
+  descricao: string
   createdAt?: Date
   updatedAt?: Date
 }
 
 interface AcaoCriseCreationAttributes
-  extends Optional<AcaoCriseAttributes, 'id' | 'voluntarios_ativos' | 'status'> {}
+  extends Optional<AcaoCriseAttributes, 'id' | 'voluntarios_ativos' | 'status'> { }
 
 export class AcaoCrise
   extends Model<AcaoCriseAttributes, AcaoCriseCreationAttributes>
-  implements AcaoCriseAttributes
-{
+  implements AcaoCriseAttributes {
   declare id: number
   declare empresa_id: number
   declare numero_voluntarios_necessarios: number
   declare voluntarios_ativos: number
   declare habilidades_necessarias: string[]
   declare status: 'aberta' | 'em_andamento' | 'concluida'
+  declare voluntarios_ids: number[]
+  declare titulo: string
+  declare descricao: string
   declare createdAt: Date
   declare updatedAt: Date
 }
@@ -64,6 +70,19 @@ AcaoCrise.init(
       allowNull: false,
       defaultValue: 'aberta',
     },
+    voluntarios_ids: {
+      type: DataTypes.ARRAY(DataTypes.INTEGER),
+      allowNull: true,
+      defaultValue: [],
+    },
+    titulo: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    descricao: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+    },
   },
   {
     sequelize,
@@ -71,5 +90,7 @@ AcaoCrise.init(
     timestamps: true,
   }
 )
+
+AcaoCrise.belongsTo(Enterprise, { foreignKey: 'empresa_id', as: 'empresa' })
 
 export default AcaoCrise
