@@ -12,5 +12,7 @@ router.get('/empresa/:empresa_id', controller.buscarPorEmpresa.bind(controller))
 router.put('/:id', controller.atualizar.bind(controller))
 router.delete('/:id', controller.deletar.bind(controller))
 router.post('/:id/orchestrate', controller.orquestrar.bind(controller))
+router.post('/:id/sair', controller.sairDaAcao.bind(controller))
+router.get('/volunteer/:id', controller.buscarPorVoluntario.bind(controller))
 
 export default router
